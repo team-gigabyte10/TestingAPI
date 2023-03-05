@@ -87,6 +87,8 @@ public class Homepage extends AppCompatActivity implements NavigationView.OnNavi
 
         if (id == R.id.nav_division) {
 
+            Intent intent = new Intent(Homepage.this, GoogleMapActivity.class);
+            startActivity(intent);
 
         } else if (id == R.id.nav_district) {
 

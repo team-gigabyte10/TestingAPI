@@ -1,8 +1,12 @@
 package com.example.testingapi.Constants;
 
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 public class Common {
 
@@ -25,5 +29,7 @@ public class Common {
         }
         return false;
     }
+
+
 
 }

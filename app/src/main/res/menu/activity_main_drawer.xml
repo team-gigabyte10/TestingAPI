@@ -7,7 +7,7 @@
         <item
             android:id="@+id/nav_division"
             android:icon="@drawable/side_nav_bar"
-            android:title="Division List" />
+            android:title="Google Map" />
 
         <item
             android:id="@+id/nav_district"
