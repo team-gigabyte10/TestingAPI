@@ -18,6 +18,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.testingapi.Helper.PreferencesHelper;
@@ -29,6 +30,7 @@ import io.paperdb.Paper;
 
 public class Homepage extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private String token, user;
+    private ImageButton btn_Map, btn_Pass, btn_Logout;
     LocationManager locationManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,9 +40,59 @@ public class Homepage extends AppCompatActivity implements NavigationView.OnNavi
         Paper.init(this);
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
+        btn_Map = findViewById(R.id.btn_location);
+        btn_Pass = findViewById(R.id.btn_lock);
+        btn_Logout = findViewById(R.id.btn_log_out);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
         //toolbar.setTitle("Menu");
         setSupportActionBar(toolbar);
+
+        btn_Map.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+                    Intent intent = new Intent(Homepage.this, GoogleMapActivity.class);
+                    startActivity(intent);
+                }else {
+                    AlertDialog.Builder alert = new AlertDialog.Builder(Homepage.this);
+                    alert.setMessage("GPS is Off. Would you like to enable it?")
+                            .setCancelable(true)
+                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    startActivity(new Intent(ACTION_LOCATION_SOURCE_SETTINGS));
+                                }
+                            })
+                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.cancel();
+                                }
+                            });
+                    AlertDialog alertDialog = alert.create();
+                    alertDialog.show();
+                }
+            }
+        });
+
+        btn_Pass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Homepage.this, ChangePassword.class);
+                startActivity(intent);
+            }
+        });
+
+        btn_Logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Paper.book().destroy();
+                Intent intent = new Intent(Homepage.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
 
         PreferencesHelper preferencesHelper = new PreferencesHelper(Homepage.this);
         token = preferencesHelper.getToken();
@@ -52,6 +104,7 @@ public class Homepage extends AppCompatActivity implements NavigationView.OnNavi
             public void onClick(View view) {
                Intent intent = new Intent(Homepage.this, ChangePassword.class);
                startActivity(intent);
+               finish();
             }
         });
 
@@ -127,6 +180,7 @@ public class Homepage extends AppCompatActivity implements NavigationView.OnNavi
             Paper.book().destroy();
             Intent intent = new Intent(Homepage.this, MainActivity.class);
             startActivity(intent);
+            finish();
 
 //            SharedPreferences sharedPreferences = getSharedPreferences("my_app_prefs", Context.MODE_PRIVATE);
 //            SharedPreferences.Editor editor = sharedPreferences.edit();
