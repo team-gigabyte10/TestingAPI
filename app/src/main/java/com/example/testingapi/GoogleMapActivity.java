@@ -11,6 +11,8 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.view.WindowManager;
+
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -37,7 +39,7 @@ public class GoogleMapActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);              // android.Manifest.permission.ACCESS_FINE_LOCATION
         setContentView(R.layout.activity_google_map);
-        //getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         smf = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.google_map);
         client = LocationServices.getFusedLocationProviderClient(this);
@@ -87,7 +89,7 @@ public class GoogleMapActivity extends AppCompatActivity {
                         MarkerOptions markerOptions=new MarkerOptions().position(latLng).title("You are here...!!");
 
                         googleMap.addMarker(markerOptions);
-                        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,17));
+                        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,15));
                     }
                 });
             }

@@ -1,10 +1,14 @@
 package com.example.testingapi.Model;
 
+import com.google.gson.annotations.SerializedName;
+
 public class PasswordModel {
 
     String UserID, CurrentPassword, NewPassword, RetypePassword;
 
     String Message;
+    @SerializedName("StatusCode")
+    String StatusCode;
 
     public PasswordModel() {
     }
@@ -58,5 +62,13 @@ public class PasswordModel {
 
     public void setMessage(String message) {
         Message = message;
+    }
+
+    public String getStatusCode() {
+        return StatusCode;
+    }
+
+    public void setStatusCode(String statusCode) {
+        StatusCode = statusCode;
     }
 }

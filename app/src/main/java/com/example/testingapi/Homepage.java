@@ -1,20 +1,27 @@
 package com.example.testingapi;
 
+import static android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS;
+
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.testingapi.Helper.PreferencesHelper;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
@@ -22,13 +29,14 @@ import io.paperdb.Paper;
 
 public class Homepage extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private String token, user;
-
+    LocationManager locationManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_homepage);
 
         Paper.init(this);
+        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
         //toolbar.setTitle("Menu");
@@ -89,10 +97,28 @@ public class Homepage extends AppCompatActivity implements NavigationView.OnNavi
 
         if (id == R.id.nav_division) {
 
-            Intent intent = new Intent(Homepage.this, GoogleMapActivity.class);
-            startActivity(intent);
-
-        } else if (id == R.id.nav_district) {
+            if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+                Intent intent = new Intent(Homepage.this, GoogleMapActivity.class);
+                startActivity(intent);
+            }else {
+                AlertDialog.Builder alert = new AlertDialog.Builder(this);
+                alert.setMessage("GPS is Off. Would you like to enable it?")
+                        .setCancelable(true)
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                startActivity(new Intent(ACTION_LOCATION_SOURCE_SETTINGS));
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.cancel();
+                            }
+                        });
+                AlertDialog alertDialog = alert.create();
+                alertDialog.show();
+            }
 
 
         }
@@ -102,10 +128,10 @@ public class Homepage extends AppCompatActivity implements NavigationView.OnNavi
             Intent intent = new Intent(Homepage.this, MainActivity.class);
             startActivity(intent);
 
-            SharedPreferences sharedPreferences = getSharedPreferences("my_app_prefs", Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.remove("Token"); // remove the data associated with "my_data_key"
-            editor.apply();
+//            SharedPreferences sharedPreferences = getSharedPreferences("my_app_prefs", Context.MODE_PRIVATE);
+//            SharedPreferences.Editor editor = sharedPreferences.edit();
+//            editor.remove("Token"); // remove the data associated with "my_data_key"
+//            editor.apply();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

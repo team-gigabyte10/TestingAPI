@@ -24,11 +24,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
-
     private EditText etUsername, etPassword;
     private TextView Token;
     private Button btnLogin;
-
     CheckBox checkBox;
 
     @SuppressLint("MissingInflatedId")
@@ -124,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(MainActivity.this, "Successful", Toast.LENGTH_LONG).show();
                         Intent intent = new Intent(MainActivity.this, Homepage.class);
                         startActivity(intent);
-
+                        finish();
 
                     }
                     else {
@@ -133,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                 } else {
-                    Toast.makeText(MainActivity.this, "Network Error", Toast.LENGTH_LONG).show();
+                    Toast.makeText(MainActivity.this, response.message(), Toast.LENGTH_LONG).show();
                 }
             }
 

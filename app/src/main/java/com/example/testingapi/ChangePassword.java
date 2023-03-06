@@ -3,6 +3,7 @@ package com.example.testingapi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -13,6 +14,7 @@ import com.example.testingapi.Helper.PreferencesHelper;
 import com.example.testingapi.Interface.ApiService;
 import com.example.testingapi.Model.PasswordModel;
 
+import io.paperdb.Paper;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -36,7 +38,7 @@ public class ChangePassword extends AppCompatActivity {
         new_Pass = findViewById(R.id.new_password);
         con_Pass = findViewById(R.id.com_password);
         btn_Conform = findViewById(R.id.b_conform);
-
+        Paper.init(this);
 
         PreferencesHelper preferencesHelper = new PreferencesHelper(ChangePassword.this);
         String token = preferencesHelper.getToken();
@@ -75,7 +77,17 @@ public class ChangePassword extends AppCompatActivity {
 
                         if (response.isSuccessful()) {
                             PasswordModel changedPassword = response.body();
-                            Toast.makeText(ChangePassword.this, changedPassword.getMessage(), Toast.LENGTH_LONG).show();
+                            int statusCode = Integer.parseInt(changedPassword.getStatusCode());
+                            if (statusCode == 1){
+                                Toast.makeText(ChangePassword.this, changedPassword.getMessage(), Toast.LENGTH_LONG).show();
+                                Paper.book().destroy();
+                                Intent intent = new Intent(ChangePassword.this, MainActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }else {
+                                Toast.makeText(ChangePassword.this, changedPassword.getMessage(), Toast.LENGTH_LONG).show();
+                            }
+
                         } else {
                             Toast.makeText(ChangePassword.this, "Failed", Toast.LENGTH_LONG).show();
                         }
@@ -90,10 +102,6 @@ public class ChangePassword extends AppCompatActivity {
         });
     }
 }
-
-
-
-
 
 
 //    public void ProcessData(String token, String u_name, String o_pass, String n_pass, String c_pass) {
