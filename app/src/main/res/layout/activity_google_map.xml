@@ -13,6 +13,30 @@
         android:id="@+id/google_map"
         android:name="com.google.android.gms.maps.SupportMapFragment"/>
 
+    <RelativeLayout
+        android:layout_marginLeft="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:elevation="10dp">
+
+        <ImageView
+            android:id="@+id/img_search"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/baseline_search_24"/>
+
+        <EditText
+            android:id="@+id/txt_search"
+            android:layout_width="200dp"
+            android:layout_marginStart="10dp"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:hint="Enter Address, City.."
+            android:imeOptions="actionSearch"/>
+
+    </RelativeLayout>
+
 
 
 </RelativeLayout>

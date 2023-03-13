@@ -52,7 +52,7 @@ public class Homepage extends AppCompatActivity implements NavigationView.OnNavi
             @Override
             public void onClick(View view) {
                 if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
-                    Intent intent = new Intent(Homepage.this, GoogleMapActivity.class);
+                    Intent intent = new Intent(Homepage.this, MapTesting.class);
                     startActivity(intent);
                 }else {
                     AlertDialog.Builder alert = new AlertDialog.Builder(Homepage.this);
@@ -81,6 +81,7 @@ public class Homepage extends AppCompatActivity implements NavigationView.OnNavi
             public void onClick(View view) {
                 Intent intent = new Intent(Homepage.this, ChangePassword.class);
                 startActivity(intent);
+                //finish();
             }
         });
 
@@ -104,7 +105,7 @@ public class Homepage extends AppCompatActivity implements NavigationView.OnNavi
             public void onClick(View view) {
                Intent intent = new Intent(Homepage.this, ChangePassword.class);
                startActivity(intent);
-               finish();
+               //finish();
             }
         });
 
@@ -151,7 +152,7 @@ public class Homepage extends AppCompatActivity implements NavigationView.OnNavi
         if (id == R.id.nav_division) {
 
             if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
-                Intent intent = new Intent(Homepage.this, GoogleMapActivity.class);
+                Intent intent = new Intent(Homepage.this, MapTesting.class);
                 startActivity(intent);
             }else {
                 AlertDialog.Builder alert = new AlertDialog.Builder(this);

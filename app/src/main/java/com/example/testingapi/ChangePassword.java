@@ -82,6 +82,7 @@ public class ChangePassword extends AppCompatActivity {
                                 Toast.makeText(ChangePassword.this, changedPassword.getMessage(), Toast.LENGTH_LONG).show();
                                 Paper.book().destroy();
                                 Intent intent = new Intent(ChangePassword.this, MainActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(intent);
                                 finish();
                             }else {
@@ -102,24 +103,3 @@ public class ChangePassword extends AppCompatActivity {
         });
     }
 }
-
-
-//    public void ProcessData(String token, String u_name, String o_pass, String n_pass, String c_pass) {
-//
-//        Call<PasswordModel> call = apiController.getInstance()
-//                .getApi()
-//                .updatePassword(token,u_name, o_pass, n_pass, c_pass);
-//
-//        call.enqueue(new Callback<PasswordModel>() {
-//            @Override
-//            public void onResponse(Call<PasswordModel> call, Response<PasswordModel> response) {
-//                PasswordModel obj = response.body();
-//                Toast.makeText(ChangePassword.this, "MS: " + obj.getMessage(), Toast.LENGTH_LONG).show();
-//            }
-//
-//            @Override
-//            public void onFailure(Call<PasswordModel> call, Throwable t) {
-//                Toast.makeText(ChangePassword.this, "Something Wrong...", Toast.LENGTH_LONG).show();
-//            }
-//        });
-//    }
